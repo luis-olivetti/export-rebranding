@@ -1,21 +1,34 @@
 using System;
-using System.Collections.Generic;
-using Dapper;
 using Microsoft.Extensions.Configuration;
+using Dapper;
+using System.Collections.Generic;
 
 namespace migracao_rebranding
 {
-    public class Buttons : Entidade
+    public class QuemSomosCidade : Entidade
     {
-        public Buttons(IConfigurationRoot configurationRoot, string filePathToExport) : base(configurationRoot, filePathToExport)
+        public QuemSomosCidade(IConfigurationRoot configurationRoot, string filePathToExport) : base(configurationRoot, filePathToExport)
         {
-            ColumnsWithoutId = "title, font, color, url, is_blank, description, created_at, updated_at";
+            ColumnsWithoutId =
+                @"box_quem_somos_cidade_description, 
+                box_quem_somos_cidade_video, 
+                box_quem_somos_cidade_anchor_id, 
+                box_nossos_numeros_text, 
+                box_sobre_cidade_anchor_id, 
+                box_sobre_cidade_cards, 
+                quem_somos_id, 
+                cidade_id, 
+                created_at, 
+                updated_at, 
+                box_quem_somos_cidade_summary_name, 
+                box_quem_somos_cidade_saiba_mais_summary_name";
         }
+
         public bool Execute()
         {
             try
             {
-                string sql = $"select id, {string.Join(',', GetColumnsNameToSelectWithQuotationMark())} from {TableName} order by id";
+                string sql = $"select {string.Join(',', GetColumnsNameToSelectWithQuotationMark())} from {TableName} order by id";
 
                 foreach (var row in Db.Connection.Query<dynamic>(sql))
                 {
@@ -38,21 +51,21 @@ namespace migracao_rebranding
                             continue;
                         }
 
-                        if (colName == "is_blank")
+                        if (colName == "box_sobre_cidade_cards")
                         {
-                            sqlValues += $",{fields[colName]}";
+                            if (fields[colName] == null)
+                            {
+                                sqlValues += ",null";
+                                continue;
+                            }
+
+                            sqlValues += $",'{EscapeJson(fields[colName].ToString())}'";
                             continue;
                         }
 
-                        if (colName == "url")
+                        if (colName == "quem_somos_id")
                         {
-                            sqlValues += $",'{ReplaceUrlToProduction(fields[colName].ToString())}'";
-                            continue;
-                        }
-
-                        if (colName == "title")
-                        {
-                            sqlValues += $",'[{fields["id"]}]{fields[colName]}'";
+                            sqlValues += ",(select max(id) from quem_somos)";
                             continue;
                         }
 
@@ -74,9 +87,9 @@ namespace migracao_rebranding
             }
         }
 
-        private string ReplaceUrlToProduction(string url)
+        private string EscapeJson(string json)
         {
-            return url.Replace("//qa.brkambiental.com.br", "//brkambiental.com.br");
+            return json.Replace(@"\", @"\\").Replace(@"'", @"''");
         }
     }
 }

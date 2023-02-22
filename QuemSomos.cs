@@ -2,8 +2,6 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Dapper;
 using System.Collections.Generic;
-using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace migracao_rebranding
 {
@@ -47,11 +45,11 @@ namespace migracao_rebranding
                 box_composicao_societaria_background_mobile";
         }
 
-        public bool QueryQuemSomos()
+        public bool Execute()
         {
             try
             {
-                string sql = $"select {string.Join(',', GetColumnsNameToSelectWithQuotationMark())} from quem_somos order by id";
+                string sql = $"select {string.Join(',', GetColumnsNameToSelectWithQuotationMark())} from {TableName} order by id";
 
                 foreach (var row in Db.Connection.Query<dynamic>(sql))
                 {
@@ -76,8 +74,6 @@ namespace migracao_rebranding
 
                         if (colName == "box_destaques_cards")
                         {
-                            Console.WriteLine(EscapeJson(fields[colName].ToString()));
-
                             sqlValues += $",'{EscapeJson(fields[colName].ToString())}'";
                             continue;
                         }
@@ -93,7 +89,7 @@ namespace migracao_rebranding
 
                     sqlValues = sqlValues.Remove(0, 2);
 
-                    string sqlInsert = $"insert into quem_somos ({string.Join(',', GetColumnsNameToSelectWithQuotationMark())}) values ({sqlValues});";
+                    string sqlInsert = $"insert into {TableName} ({string.Join(',', GetColumnsNameToSelectWithQuotationMark())}) values ({sqlValues});";
 
                     WriteOnFile(sqlInsert);
                 }

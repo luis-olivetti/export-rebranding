@@ -9,13 +9,16 @@ namespace migracao_rebranding
     {
         internal AppDB Db { get; set; }
         private string FilePath { get; }
+        internal string TableName { get; }
         internal string ColumnsWithoutId { get; set; }
 
-        public Entidade(IConfigurationRoot configurationRoot, string filePathToExport)
+        public Entidade(IConfigurationRoot configurationRoot, string tableName)
         {
             Db = new AppDB(configurationRoot["ConnectionStrings:Default"]);
 
-            FilePath = filePathToExport;
+            TableName = tableName;
+
+            FilePath = tableName + ".sql";
             if (File.Exists(FilePath))
             {
                 File.Delete(FilePath);
@@ -25,6 +28,7 @@ namespace migracao_rebranding
         public void WriteOnFile(string sql)
         {
             using StreamWriter file = new(FilePath, append: true);
+            file.WriteLine(string.Empty);
             file.WriteLine(sql);
         }
 
