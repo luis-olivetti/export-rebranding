@@ -5,44 +5,34 @@ using System.Collections.Generic;
 
 namespace migracao_rebranding
 {
-    public class QuemSomos : Entidade
+    public class NossaAtuacao : Entidade
     {
-        public QuemSomos(IConfigurationRoot configurationRoot, string filePathToExport) : base(configurationRoot, filePathToExport)
+        public NossaAtuacao(IConfigurationRoot configurationRoot, string filePathToExport) : base(configurationRoot, filePathToExport)
         {
             ColumnsWithoutId =
-                @"title, 
-                banner, 
-                box_quem_somos_description, 
-                box_quem_somos_image, 
-                box_quem_somos_summary_name, 
-                box_proposito_valores_description, 
-                box_proposito_valores_image, 
-                box_proposito_valores_summary_name, 
-                box_destaques_title, 
-                box_destaques_description, 
-                box_destaques_cards, 
-                box_destaques_summary_name, 
-                box_nossos_numeros_title, 
-                box_nossos_numeros_description, 
-                box_nossos_numeros_text, 
-                box_nossos_numeros_summary_name, 
-                box_composicao_societaria_title, 
-                box_composicao_societaria_background, 
-                box_composicao_societaria_summary_name, 
-                box_composicao_societaria_text, 
-                box_nosso_futuro_title, 
-                box_nosso_futuro_image, 
-                box_nosso_futuro_summary_name, 
-                box_nosso_futuro_description, 
-                box_valores_summary_name, 
-                box_valores_backgroundImage, 
-                box_valores_valores, 
-                box_quem_somos_button_id, 
-                box_proposito_valores_button_id, 
-                box_nossos_numeros_button_id, 
-                created_at, 
-                updated_at, 
-                box_composicao_societaria_background_mobile";
+                @"
+                title,
+                banner,
+                box_o_que_fazemos_summary_name,
+                box_o_que_fazemos_left_description,
+                box_o_que_fazemos_rigth_description,
+                box_onde_estamos_summary_name,
+                box_onde_estamos_description,
+                box_onde_estamos_background_image,
+                box_onde_estamos_image,
+                box_atuacao_socioambiental_summary_name,
+                box_atuacao_socioambiental_description,
+                box_atuacao_socioambiental_background_image,
+                box_atuacao_socioambiental_image,
+                box_atuacao_socioambiental_button_id,
+                box_compromisso_summary_name,
+                box_compromisso_description,
+                box_compromisso_background_image,
+                box_compromisso_image,
+                box_cards,
+                created_at,
+                updated_at
+                ";
         }
 
         public bool Execute()
@@ -72,7 +62,7 @@ namespace migracao_rebranding
                             continue;
                         }
 
-                        if (colName == "box_destaques_cards")
+                        if (colName == "box_cards")
                         {
                             sqlValues += $",'{EscapeJson(fields[colName])}'";
                             continue;

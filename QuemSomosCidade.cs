@@ -53,13 +53,7 @@ namespace migracao_rebranding
 
                         if (colName == "box_sobre_cidade_cards")
                         {
-                            if (fields[colName] == null)
-                            {
-                                sqlValues += ",null";
-                                continue;
-                            }
-
-                            sqlValues += $",'{EscapeJson(fields[colName].ToString())}'";
+                            sqlValues += $",'{EscapeJson(fields[colName])}'";
                             continue;
                         }
 
@@ -85,11 +79,6 @@ namespace migracao_rebranding
                 Console.WriteLine(ex.Message);
                 return false;
             }
-        }
-
-        private string EscapeJson(string json)
-        {
-            return json.Replace(@"\", @"\\").Replace(@"'", @"''");
         }
     }
 }

@@ -28,6 +28,12 @@ namespace migracao_rebranding
                 throw new System.Exception("Falha ao gerar script para a tabela quem_somos_cidade");
             }
 
+            var nossaAtuacao = new NossaAtuacao(startup.Configuration, "nossa_atuacao");
+            if (!nossaAtuacao.Execute())
+            {
+                throw new System.Exception("Falha ao gerar script para a tabela nossa_atuacao");
+            }
+
             // Depois de migrado tudo devemos remover o identificador na tabela buttons. Ex.: [id]Nome do botão
         }
     }

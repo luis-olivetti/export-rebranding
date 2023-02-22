@@ -8,17 +8,26 @@ namespace migracao_rebranding
     public class Entidade
     {
         internal AppDB Db { get; set; }
-        private string FilePath { get; }
+        private string FilePath { get; set; }
         internal string TableName { get; }
         internal string ColumnsWithoutId { get; set; }
 
         public Entidade(IConfigurationRoot configurationRoot, string tableName)
         {
             Db = new AppDB(configurationRoot["ConnectionStrings:Default"]);
-
             TableName = tableName;
+            PrepareFolderToScripts(tableName);
+        }
 
-            FilePath = tableName + ".sql";
+        private void PrepareFolderToScripts(string tableName)
+        {
+            const string folder = "./generated-scripts";
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            FilePath = Path.Combine(folder, tableName + ".sql");
             if (File.Exists(FilePath))
             {
                 File.Delete(FilePath);
@@ -48,6 +57,16 @@ namespace migracao_rebranding
                 columnsNameToSelectWithQuotationMark.Add($"`{item}`");
             }
             return columnsNameToSelectWithQuotationMark;
+        }
+
+        public string EscapeJson(object json)
+        {
+            if (json == null)
+            {
+                return ",null";
+            }
+
+            return json.ToString().Replace(@"\", @"\\").Replace(@"'", @"''");
         }
     }
 }
