@@ -40,6 +40,12 @@ namespace migracao_rebranding
                 throw new System.Exception("Falha ao gerar script para a tabela nossa_atuacao_cidade");
             }
 
+            var openingPages = new OpeningPages(startup.Configuration, "opening_pages");
+            if (!openingPages.Execute())
+            {
+                throw new System.Exception("Falha ao gerar script para a tabela opening_pages");
+            }
+
             // Depois de migrado tudo devemos remover o identificador na tabela buttons. Ex.: [id]Nome do botão
         }
     }
