@@ -52,6 +52,12 @@ namespace migracao_rebranding
                 throw new System.Exception("Falha ao gerar script para a tabela home_pages");
             }
 
+            var needHelps = new NeedHelps(startup.Configuration, "need_helps");
+            if (!needHelps.Execute())
+            {
+                throw new System.Exception("Falha ao gerar script para a tabela need_helps");
+            }
+
             // Depois de migrado tudo devemos remover o identificador na tabela buttons. Ex.: [id]Nome do botão
         }
     }
