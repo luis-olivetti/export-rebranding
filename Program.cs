@@ -58,6 +58,12 @@ namespace migracao_rebranding
                 throw new System.Exception("Falha ao gerar script para a tabela need_helps");
             }
 
+            var compliances = new Compliances(startup.Configuration, "compliances");
+            if (!compliances.Execute())
+            {
+                throw new System.Exception("Falha ao gerar script para a tabela compliances");
+            }
+
             // Depois de migrado tudo devemos remover o identificador na tabela buttons. Ex.: [id]Nome do botão
         }
     }

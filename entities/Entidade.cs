@@ -81,7 +81,7 @@ namespace migracao_rebranding
                 return ",null";
             }
 
-            if (columnName.Contains("_cards"))
+            if (columnName.Contains("_cards") || columnName.Contains("_json"))
             {
                 return $",'{EscapeJson(fields[columnName])}'";
             }
