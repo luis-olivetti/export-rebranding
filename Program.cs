@@ -64,6 +64,12 @@ namespace migracao_rebranding
                 throw new System.Exception("Falha ao gerar script para a tabela compliances");
             }
 
+            var brkInova = new BrkInova(startup.Configuration, "brk_inova");
+            if (!brkInova.Execute())
+            {
+                throw new System.Exception("Falha ao gerar script para a tabela brk_inova");
+            }
+
             // Depois de migrado tudo devemos remover o identificador na tabela buttons. Ex.: [id]Nome do botão
         }
     }

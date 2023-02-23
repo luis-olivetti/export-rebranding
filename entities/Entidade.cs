@@ -63,13 +63,13 @@ namespace migracao_rebranding
         {
             if (json == null)
             {
-                return ",null";
+                return "null";
             }
 
-            return json.ToString().Replace(@"\", @"\\").Replace(@"'", @"''");
+            return $"'{json.ToString().Replace(@"\", @"\\").Replace(@"'", @"''")}'";
         }
 
-        public string PrepareCommonColumnValues(string columnName, IDictionary<string, object> fields)
+        protected virtual string PrepareCommonColumnValues(string columnName, IDictionary<string, object> fields)
         {
             if (columnName == "created_at")
             {
@@ -81,17 +81,12 @@ namespace migracao_rebranding
                 return ",null";
             }
 
-            if (columnName.Contains("_cards") || columnName.Contains("_json"))
-            {
-                return $",'{EscapeJson(fields[columnName])}'";
-            }
-
             if (columnName.Contains("button_id"))
             {
                 return $",(select id from buttons where title like '[{fields[columnName]}]%')";
             }
 
-            return $",'{fields[columnName]}'";
+            return $",{EscapeJson(fields[columnName])}";
         }
     }
 }

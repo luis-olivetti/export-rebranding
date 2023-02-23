@@ -25,38 +25,7 @@ namespace migracao_rebranding
                     foreach (var colName in GetColumnsNameWithoutIdForValueSection())
                     {
                         sqlValues += Environment.NewLine;
-
-                        if (colName == "created_at")
-                        {
-                            sqlValues += ",now()";
-                            continue;
-                        }
-
-                        if (colName == "updated_at")
-                        {
-                            sqlValues += ",null";
-                            continue;
-                        }
-
-                        if (colName == "is_blank")
-                        {
-                            sqlValues += $",{fields[colName]}";
-                            continue;
-                        }
-
-                        if (colName == "url")
-                        {
-                            sqlValues += $",'{ReplaceUrlToProduction(fields[colName].ToString())}'";
-                            continue;
-                        }
-
-                        if (colName == "title")
-                        {
-                            sqlValues += $",'[{fields["id"]}]{fields[colName]}'";
-                            continue;
-                        }
-
-                        sqlValues += $",'{fields[colName]}'";
+                        sqlValues += PrepareCommonColumnValues(colName, fields);
                     }
 
                     sqlValues = sqlValues.Remove(0, 2);
@@ -72,6 +41,26 @@ namespace migracao_rebranding
                 Console.WriteLine(ex.Message);
                 return false;
             }
+        }
+
+        protected override string PrepareCommonColumnValues(string columnName, IDictionary<string, object> fields)
+        {
+            if (columnName == "is_blank")
+            {
+                return $",{fields[columnName]}".ToLower();
+            }
+
+            if (columnName == "url")
+            {
+                return $",'{ReplaceUrlToProduction(fields[columnName].ToString())}'";
+            }
+
+            if (columnName == "title")
+            {
+                return $",'[{fields["id"]}]{fields[columnName]}'";
+            }
+
+            return base.PrepareCommonColumnValues(columnName, fields);
         }
 
         private string ReplaceUrlToProduction(string url)

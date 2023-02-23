@@ -5,23 +5,37 @@ using System.Collections.Generic;
 
 namespace migracao_rebranding
 {
-    public class QuemSomosCidade : Entidade
+    public class BrkInova : Entidade
     {
-        public QuemSomosCidade(IConfigurationRoot configurationRoot, string filePathToExport) : base(configurationRoot, filePathToExport)
+        public BrkInova(IConfigurationRoot configurationRoot, string filePathToExport) : base(configurationRoot, filePathToExport)
         {
             ColumnsWithoutId =
-                @"box_quem_somos_cidade_description, 
-                box_quem_somos_cidade_video, 
-                box_quem_somos_cidade_anchor_id, 
-                box_nossos_numeros_text, 
-                box_sobre_cidade_anchor_id, 
-                box_sobre_cidade_cards, 
-                quem_somos_id, 
-                cidade_id, 
-                created_at, 
-                updated_at, 
-                box_quem_somos_cidade_summary_name, 
-                box_quem_somos_cidade_saiba_mais_summary_name";
+                @"
+                title,
+                banner,
+                short_description,
+                box_inovacao_aberta_description,
+                box_inovacao_aberta_items,
+                box_inovacao_aberta_summary_name,
+                box_datathon_description,
+                box_datathon_image,
+                box_datathon_anchor_id,
+                box_datathon_summary_name,
+                box_datathon_button_id,
+                box_pitch_description,
+                box_pitch_image,
+                box_pitch_anchor_id,
+                box_pitch_summary_name,
+                box_pitch_button_id,
+                box_parceiros_title,
+                box_parceiros_cards,
+                box_parceiros_summary_name,
+                box_time_title,
+                box_time_cards,
+                box_time_summary_name,
+                created_at,
+                updated_at
+                ";
         }
 
         public bool Execute()
@@ -54,16 +68,6 @@ namespace migracao_rebranding
                 Console.WriteLine(ex.Message);
                 return false;
             }
-        }
-
-        protected override string PrepareCommonColumnValues(string columnName, IDictionary<string, object> fields)
-        {
-            if (columnName == "quem_somos_id")
-            {
-                return ",(select max(id) from quem_somos)";
-            }
-
-            return base.PrepareCommonColumnValues(columnName, fields);
         }
     }
 }
