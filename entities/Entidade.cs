@@ -68,5 +68,30 @@ namespace migracao_rebranding
 
             return json.ToString().Replace(@"\", @"\\").Replace(@"'", @"''");
         }
+
+        public string PrepareCommonColumnValues(string columnName, IDictionary<string, object> fields)
+        {
+            if (columnName == "created_at")
+            {
+                return ",now()";
+            }
+
+            if (columnName == "updated_at")
+            {
+                return ",null";
+            }
+
+            if (columnName.Contains("_cards"))
+            {
+                return $",'{EscapeJson(fields[columnName])}'";
+            }
+
+            if (columnName.Contains("button_id"))
+            {
+                return $",(select id from buttons where title like '[{fields[columnName]}]%')";
+            }
+
+            return $",'{fields[columnName]}'";
+        }
     }
 }

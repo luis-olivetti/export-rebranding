@@ -34,32 +34,7 @@ namespace migracao_rebranding
                     foreach (var colName in GetColumnsNameWithoutIdForValueSection())
                     {
                         sqlValues += Environment.NewLine;
-
-                        if (colName == "created_at")
-                        {
-                            sqlValues += ",now()";
-                            continue;
-                        }
-
-                        if (colName == "updated_at")
-                        {
-                            sqlValues += ",null";
-                            continue;
-                        }
-
-                        if (colName.Contains("_cards"))
-                        {
-                            sqlValues += $",'{EscapeJson(fields[colName])}'";
-                            continue;
-                        }
-
-                        if (colName.Contains("button_id"))
-                        {
-                            sqlValues += $",(select id from buttons where title like '[{fields[colName]}]%')";
-                            continue;
-                        }
-
-                        sqlValues += $",'{fields[colName]}'";
+                        sqlValues += PrepareCommonColumnValues(colName, fields);
                     }
 
                     sqlValues = sqlValues.Remove(0, 2);
