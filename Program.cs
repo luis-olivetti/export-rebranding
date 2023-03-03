@@ -70,7 +70,15 @@ namespace migracao_rebranding
                 throw new System.Exception("Falha ao gerar script para a tabela brk_inova");
             }
 
+            var conteudoPages = new ConteudoPages(startup.Configuration, "conteudo_pages");
+            if (!conteudoPages.Execute())
+            {
+                throw new System.Exception("Falha ao gerar script para a tabela conteudo_pages");
+            }
+
             // Depois de migrado tudo devemos remover o identificador na tabela buttons. Ex.: [id]Nome do botão
+
+            // Precisamos estudar o caso dos slugs. Muito importante isso
         }
     }
 }

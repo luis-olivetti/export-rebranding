@@ -10,7 +10,8 @@ namespace migracao_rebranding
         public QuemSomos(IConfigurationRoot configurationRoot, string filePathToExport) : base(configurationRoot, filePathToExport)
         {
             ColumnsWithoutId =
-                @"title, 
+                @"
+                title, 
                 banner, 
                 box_quem_somos_description, 
                 box_quem_somos_image, 
@@ -42,7 +43,8 @@ namespace migracao_rebranding
                 box_nossos_numeros_button_id, 
                 created_at, 
                 updated_at, 
-                box_composicao_societaria_background_mobile";
+                box_composicao_societaria_background_mobile
+                ";
         }
 
         public bool Execute()
