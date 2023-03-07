@@ -401,4 +401,4 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp
 appsettings.json
-*.sql
+/generated-scripts/*.sql
