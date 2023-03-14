@@ -71,7 +71,7 @@ namespace migracao_rebranding
 
         protected virtual string PrepareCommonColumnValues(string columnName, IDictionary<string, object> fields)
         {
-            if (columnName == "created_at")
+            if (columnName == "created_at" || columnName == "last_updated_at")
             {
                 return ",now()";
             }

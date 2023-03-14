@@ -15,6 +15,31 @@ Example to appsettings:
 
 `dotnet run`
 
+<h3>Execution order</h3>
+
+1. delete_values_of_rebranding_tables.sql
+1. buttons.sql
+1. brk_inova.sql
+1. compliances.sql
+1. conteudos.sql
+1. conteudo_pages.sql
+1. home_pages.sql
+1. imobiliaria_page.sql
+1. need_helps.sql
+1. news_header.sql
+1. nossa_atuacao.sql
+1. nossa_atuacao_cidade.sql
+1. opening_pages.sql
+1. privacy_policy.sql
+1. quem_somos.sql
+1. quem_somos_cidade.sql
+1. search_keys.sql
+1. trabalhe_conosco.sql
+1. sliders.sql
+1. update_campaing_pages.sql
+1. update_menu_nodes.sql
+1. update_title_buttons.sql
+
 <h3>Technologies</h3>
 
 - .NET 5

@@ -53,5 +53,23 @@ namespace migracao_rebranding
                 return false;
             }
         }
+
+        protected override string PrepareCommonColumnValues(string columnName, IDictionary<string, object> fields)
+        {
+            if (columnName == "owner_id")
+            {
+                var ownerType = fields["owner_type"].ToString();
+                if (ownerType.Contains("Compliance"))
+                {
+                    return ",(select max(id) from compliances)";
+                }
+                else if (ownerType.Contains("HomePage"))
+                {
+                    return ",(select max(id) from home_pages)";
+                }
+            }
+
+            return base.PrepareCommonColumnValues(columnName, fields);
+        }
     }
 }
