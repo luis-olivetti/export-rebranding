@@ -40,6 +40,27 @@ Example to appsettings:
 1. update_menu_nodes.sql
 1. update_title_buttons.sql
 
+<h3>How to run locally?</h3>
+
+it is recommended to recreate the local database.
+```
+mysql -u homestead -p
+drop database homestead;
+create database homestead;
+exit;
+```
+
+Restore database with backup
+```
+mysql -u root -p homestead < producao.sql
+```
+
+Execute migrations and seeders
+```
+php artisan migrate
+php artisan brk:seed
+```
+
 <h3>Technologies</h3>
 
 - .NET 5
